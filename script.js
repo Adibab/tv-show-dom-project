@@ -1840,26 +1840,52 @@ window.onload = setup;
 function makePageForEpisodes (){
   for ( let episodes =0; episodes <getAllEpisodes().length; episodes++){
     let episodsObjs = getAllEpisodes()[episodes];
-//  console.log( episodsObjs = getAllEpisodes()[episodes])
-const header = document.getElementById("header");
-// console.log(header)
-const title = document.createElement("h2")
-// console.log(title)
-const span = document.createElement("span")
+    //  console.log( episodsObjs = getAllEpisodes()[episodes])
+    const header = document.getElementById("header");
+    // console.log(header)
+    // const titleDiv = document.createElement("div")
+    const title = document.createElement("h2");
+    // console.log(title)
+    const span = document.createElement("span");
+     const image = document.createElement("img");
+    const paragraph = document.createElement("p")
 
+     const titleDiv = document.createElement("div");
+     const newbody = document.createElement("div")
 
-for ( let episod  in episodsObjs ){
-  // adding episod & season
-  
-  span.innerText = `S0${episodsObjs.season}E0${episodsObjs.number}`;
-  // title.appendChild(span);
-  
-  //  console.log( `${episodsObjs.name}`)
-  title.innerText = `${episodsObjs.name}`;
-  header.appendChild(title);
-  header.appendChild(span)
-}
+    for (let episod in episodsObjs) {
+      //  adding episod name
+      title.innerText = `${episodsObjs.name}`;
+      // adding episod & season
+      //  console.log( `${episodsObjs.name}`)
+      span.innerText = `S0${episodsObjs.season}E0${episodsObjs.number}`;
+      // title.appendChild(span);
 
+      // title.appendChild(span)
+      titleDiv.appendChild(title);
+      titleDiv.appendChild(span);
+       newbody.appendChild(titleDiv);
+       header.appendChild(newbody)
+
+      // console.log(newbody)
+      // newbody.appendChild(span);
+      // newbody.appendChild(titleDiv)
+
+      // episod image
+     image.src = `${episodsObjs.image.medium}`;
+     newbody.appendChild(image)  
+     header.appendChild(newbody);
+     image.classList.add("img");
+
+      // paragraph
+     paragraph.innerHTML=`${episodsObjs.summary}`
+     newbody.appendChild(paragraph)
+     header.appendChild(newbody)
+
+     
+      newbody.classList.add("content")
+       titleDiv.classList.add("title-class")
+    }
   }
 }
 

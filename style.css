@@ -71,10 +71,10 @@ body {
   font-family: var(--ff-secondary);
   background: var(--clr-grey-10);
   color: var(--clr-grey-1);
-  line-height: 1.5;
-  font-size: 0.875rem;
+  font-size: 1rem;
+  text-align: justify;
 }
-ul {
+/* ul {
   list-style-type: none;
 }
 a {
@@ -96,12 +96,12 @@ h4 {
   line-height: 1.25;
   margin-bottom: 0.75rem;
   font-family: var(--ff-primary);
-}
+} */
 h1 {
   font-size: 3rem;
 }
 h2 {
-  font-size: 2rem;
+  font-size: 1rem;
 }
 h3 {
   font-size: 1.25rem;
@@ -109,11 +109,11 @@ h3 {
 h4 {
   font-size: 0.875rem;
 }
-p {
+/* p {
   margin-bottom: 1.25rem;
   color: var(--clr-grey-5);
-}
-@media screen and (min-width: 800px) {
+} */
+/* @media screen and (min-width: 800px) {
   h1 {
     font-size: 4rem;
   }
@@ -138,7 +138,7 @@ p {
 }
 /*  global classes */
 
-.btn {
+/* .btn {
   text-transform: uppercase;
   background: transparent;
   color: var(--clr-black);
@@ -155,10 +155,11 @@ p {
 .btn:hover {
   color: var(--clr-white);
   background: var(--clr-black);
-}
+} */
 /* section */
 .section {
-  padding: 5rem 0;
+  padding: 1rem 0;
+  border: 2px solid black;
 }
 
 main {
@@ -172,13 +173,10 @@ Menu
 ===============
 */
 
-.menu {
+/* .menu {
   padding: 5rem 0;
 }
-.title {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+
 .underline {
   width: 5rem;
   height: 0.25rem;
@@ -208,14 +206,10 @@ Menu
   background: var(--clr-gold);
   color: var(--clr-white);
 }
-.section-center {
-  width: 90vw;
-  margin: 0 auto;
-  max-width: 1170px;
-  display: grid;
-  gap: 3rem 2rem;
-  justify-items: center;
-}
+
+
+
+
 .menu-item {
   display: grid;
   gap: 1rem 2rem;
@@ -261,4 +255,39 @@ Menu
   .photo {
     height: 150px;
   }
+} */
+
+.title {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.section-center {
+  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+  justify-items: left;
+  border: 2px solid black;
+}
+#header{
+  display: flex;
+flex-wrap: wrap;
+}
+
+.content {
+  border: 2px solid black;
+  width: 30%;
+  margin: 1% 1.5%;
+  padding: 1%;
+  
+}
+.title-class {
+  border: 2px solid black;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+.img {
+  width: 100%;
+  margin-top: 1%;
 }
