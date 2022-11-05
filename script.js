@@ -5,6 +5,7 @@ function setup() {
   allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
   populateSearchItem(allEpisodes);
+  selectMovies(allEpisodes)
 }
 
 // function makePageForEpisodes(episodeList) {
@@ -65,9 +66,10 @@ function makePageForEpisodes(episodes) {
 }
 
 const title = document.querySelector(".title");
+const searchBox = document.querySelector("#search-shows");
 
 function populateSearchItem(allEpisodes) {
-  const searchBox = document.querySelector("#search-shows");
+  
   searchBox.addEventListener("keyup", (e) => {
     const value = e.target.value.toLowerCase();
     const paragraphforSearch = document.querySelector("#paragraphforSearch");
@@ -77,6 +79,7 @@ function populateSearchItem(allEpisodes) {
         episode.name.toLowerCase().includes(value) ||
         episode.summary.toLowerCase().includes(value)
     );
+    //  console.log(remainingEpisods)
     if (value) {
       paragraphforSearch.innerHTML = `Displaying ${remainingEpisods.length}/ ${allEpisodes.length} episods`;
     } else {
@@ -87,5 +90,31 @@ function populateSearchItem(allEpisodes) {
 
 }
 
+//  for select option
+const select = document.querySelector("#select-episode")
+// console.log(select)
 
-function 
+function selectMovies (allEpisodes){
+  // array = episodes
+  allEpisodes.forEach((episodes) => {
+    let option = document.createElement("option");
+    // console.log(option)
+    option.innerText = `S0${episodes.season}E0${episodes.number} - ${episodes.name}`;
+    select.appendChild(option)
+    // console.log(option)
+  });
+  select.addEventListener("change", function (){
+const value = select.value
+// console.log(value)
+// console.log(value)
+let  remainingEpisodes = allEpisodes.filter ((episode)=> episode.name === value)
+  console.log(remainingEpisodes)
+ if (!value) {
+  remainingEpisodes = allEpisodes
+ } 
+ searchBox.value = ""
+ makePageForEpisodes(remainingEpisodes);
+  })
+  
+  // console.log(optionValue);
+}
