@@ -10,10 +10,7 @@ const title = document.querySelector(".title");
 const goBackBtn = document.querySelector("#goBackBtn");
 let allEpisodes;
 const allShows = getAllShows();
-// // console.log(title)
-// const episodeList = getAllEpisodes();
 
-// popping up the episode in the window while it loads
 function loadShowOnPage(allShows) {
   header.innerHTML = "";
   allShows.sort((a, b) => a.name.localeCompare(b.name));
@@ -50,43 +47,45 @@ function loadShow(shows) {
     newbody.appendChild(image);
     header.appendChild(newbody);
     image.classList.add("img");
-
     // paragraph
     paragraph.innerHTML = show.summary;
     newbody.appendChild(paragraph);
     header.appendChild(newbody);
     newbody.classList.add("content");
     titleDiv.classList.add("title-class");
+    paragraphforSearch.innerHTML = `Displaying ${allShows.length} / ${allShows.length} episodes`;
+    // console.log(paragraphforSearch)
   }
 }
 
 // search button to show specific shows
 function searchShows(allShows) {
-
   searchBox.addEventListener("keyup", (e) => {
-    paragraphforSearch.classList.toggle("hidden");
+    // paragraphforSearch.classList.toggle("hidden");
     const value = e.target.value.toLowerCase();
-    console.log(value);
-    console.log(allShows);
-    const remainingEpisods = allShows.filter(
+    // console.log(value);
+    // console.log(allShows);
+    const remainingEpisodes = allShows.filter(
       (episode) =>
         episode.name.toLowerCase().includes(value) ||
         episode.summary.toLowerCase().includes(value)
     );
-    console.log(remainingEpisods);
+    // console.log(remainingEpisodes);
+     header.innerHTML = "";
+     loadShow(remainingEpisodes);
     if (value) {
-      paragraphforSearch.innerHTML = `Displaying ${remainingEpisods.length}/ ${allShows.length} episodes`;
+      paragraphforSearch.innerHTML = `Displaying ${remainingEpisodes.length}/ ${allShows.length} episodes`;
     } else {
       paragraphforSearch.innerHTML = " ";
     }
-    header.innerHTML = "";
-    loadShow(remainingEpisods);
+
   });
 }
 
 //  level-400
 // get all the shows in select menu
-function selectMovies() {
+function selectMovies(allShows) {
+  // showOption(allShows);
   allShows
     .sort((a, b) => a.name.localeCompare(b.name))
     .forEach((shows) => {
@@ -96,80 +95,56 @@ function selectMovies() {
       selectShow.appendChild(option);
       // console.log(option)
     });
-
 }
 selectMovies(allShows);
 
+function showOption() {
+  selectShow.innerHTML = "";
+  const optionShow1 = document.createElement("option");
+  optionShow1.innerText = "All";
+  selectShow.appendChild(optionShow1);
+}
+
 //  selecting episode & showing episode accoridngly
 selectShow.addEventListener("change", function () {
+  // console.log(selectEpisode);
   getTheEpisodesList();
-  // searchEpisodesList();
-  // goBackBtn.classList.toggle("hidden");
-
- 
-})
-
-
+  // selectEpisode.innerHTML= " ";
+});
 
 // getting the episode list in the select-episode  dropdown menu
 function getTheEpisodesList() {
   const value = selectShow.value;
-   
-  // console.log(value);
   const showId = allShows.find((show) => show.name === value).id;
-  // console.log(showId)
-  // generating episode list in the body
   fetchEpisodes(showId);
   searchBox.value = "";
 }
 
 //  generating episode list in the body
 function fetchEpisodes(id) {
-  
   fetch(`https://api.tvmaze.com/shows/${id}/episodes`)
     .then((res) => res.json())
     .then((data) => {
       // console.log(data)
       allEpisodes = data;
       //  console.log(allEpisodes)
+      header.innerHTML = " ";
+      // function for loading episode in the body
+      loadEpisodes(allEpisodes);
+      // for episode option
+      episodeOption(allEpisodes);
       allEpisodes.forEach((episode) => {
         let option = document.createElement("option");
         option.innerText = `S0${episode.season}E0${episode.number} - ${episode.name}`;
         selectEpisode.appendChild(option);
-
-      paragraphforSearch.classList.toggle("hidden");
-      paragraphforSearch.innerHTML = `Displaying ${allEpisodes.length} episodes`;
-        
+        // paragraphforSearch.classList.toggle("hidden");
+        paragraphforSearch.innerHTML = `Displaying ${allEpisodes.length} episodes`;
+        // console.log(paragraphforSearch)
+        //
       });
-      header.innerHTML = " ";
-      // function for loading episode in the body
-      loadEpisodes(allEpisodes);
+
       searchEpisodesList(allEpisodes);
     });
-}
-
-// search button to show specific episodes
-
-function searchEpisodesList(allEpisodes) {
-  searchBox.addEventListener("keyup", (e) => {
-     paragraphforSearch.classList.toggle("hidden");
-    const value = e.target.value.toLowerCase();
-    console.log(value);
-    console.log(allEpisodes);
-    const remainingEpisods = allEpisodes.filter(
-      (episode) =>
-        episode.name.toLowerCase().includes(value) ||
-        episode.summary.toLowerCase().includes(value)
-    );
-    console.log(remainingEpisods);
-    if (value) {
-      paragraphforSearch.innerHTML = `Displaying ${remainingEpisods.length}/ ${allShows.length} episodes`;
-    } else {
-      paragraphforSearch.innerHTML = " ";
-    }
-    header.innerHTML = "";
-    loadShow(remainingEpisods);
-  });
 }
 
 // function for loading episode in the body
@@ -184,7 +159,7 @@ function loadEpisodes(allEpisodes) {
     //  adding episod name
     title.innerText = `${episode.name}`;
     // title.appendChild(span)
-    span.innerText = `S0${episode.season}E0${episode.number}`;
+    // span.innerText = `S0${episode.season}E0${episode.number}`;
     titleDiv.appendChild(title);
     titleDiv.appendChild(span);
     newbody.appendChild(titleDiv);
@@ -206,9 +181,41 @@ function loadEpisodes(allEpisodes) {
     header.appendChild(newbody);
     newbody.classList.add("content");
     titleDiv.classList.add("title-class");
-
-    
   }
+}
+
+// for episode option
+function episodeOption() {
+  selectEpisode.innerHTML = "";
+  const optionEl = document.createElement("option");
+  optionEl.innerText = "All";
+  selectEpisode.appendChild(optionEl);
+}
+
+// episodeOption(allEpisodes)
+
+// search button to show specific episodes
+
+function searchEpisodesList(allEpisodes) {
+  searchBox.addEventListener("keyup", (e) => {
+    paragraphforSearch.classList.toggle("hidden");
+    const value = e.target.value.toLowerCase();
+    console.log(value);
+    console.log(allEpisodes);
+    const remainingEpisods = allEpisodes.filter(
+      (episode) =>
+        episode.name.toLowerCase().includes(value) ||
+        episode.summary.toLowerCase().includes(value)
+    );
+    console.log(remainingEpisods);
+    if (value) {
+      paragraphforSearch.innerHTML = `Displaying ${remainingEpisods.length}/ ${allShows.length} episodes`;
+    } else {
+      paragraphforSearch.innerHTML = " ";
+    }
+    header.innerHTML = "";
+    loadShow(remainingEpisods);
+  });
 }
 
 // level 500
@@ -216,25 +223,29 @@ function loadEpisodes(allEpisodes) {
 
 selectEpisode.addEventListener("change", function () {
   const value = selectEpisode.value.slice(9);
-  console.log(value);
+  // console.log(value);
   let remainingEpisodes = allEpisodes.filter(
     (episode) => episode.name === value
   );
-  console.log(remainingEpisodes);
-  if (!value) {
-    remainingEpisodes = allEpisodes;
+  // console.log(remainingEpisodes);
+  // if (!value) {
+  //   remainingEpisodes = allEpisodes;
+  // }
+  if (value) {
+    paragraphforSearch.innerHTML = `Displaying ${remainingEpisodes.length}/ ${allEpisodes.length} episodes`;
+  } else {
+    paragraphforSearch.innerHTML = " ";
   }
   searchBox.value = "";
   header.innerHTML = "";
-  paragraphforSearch.innerHTML = ""
+  // paragraphforSearch.innerHTML = "";
   loadEpisodes(remainingEpisodes);
-goBackBtn.addEventListener("click" , gobackFromEpisode)
+  // goBackBtn.addEventListener("click" , gobackFromEpisode)
+  goBackBtn.addEventListener("click", gobackFromShowPage);
 });
 
-
-
-// add event listner to goback btn to go back from movie show list page 
- goBackBtn.addEventListener("click", gobackFromShowPage);
+// add event listner to goback btn to go back from movie show list page
+goBackBtn.addEventListener("click", gobackFromShowPage);
 //  console.log(goBackBtn);
 function gobackFromShowPage() {
   // console.log(allShows);
@@ -242,15 +253,15 @@ function gobackFromShowPage() {
   loadShow(allShows);
   selectShow.value = "none";
   selectEpisode.value = "none";
-  paragraphforSearch.innerHTML = " ";
+  paragraphforSearch.innerHTML = "Displaying 301 episodes";
+  searchBox.value = "";
 }
 
-
-//  to go back from episode  list page 
- function gobackFromEpisode () {
-  header.innerHTML = " ";
-  loadEpisodes(allEpisodes);
-  selectShow.value = "none";
-  selectEpisode.value = "none";
-  paragraphforSearch.innerHTML = " ";
- }
+//  to go back from episode  list page
+// function gobackFromEpisode() {
+//   header.innerHTML = " ";
+//   loadEpisodes(allEpisodes);
+//   selectShow.value = "none";
+//   selectEpisode.value = "none";
+//   paragraphforSearch.innerHTML = " ";
+// }
