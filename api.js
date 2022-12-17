@@ -18,7 +18,10 @@ function loadShowOnPage(allShows) {
   searchShows(allShows);
 }
 
-loadShowOnPage(allShows);
+window.onload = () => {
+  loadShowOnPage(allShows);
+}
+
 
 // creating function for shows
 function loadShow(shows) {
@@ -71,51 +74,46 @@ function searchShows(allShows) {
         episode.summary.toLowerCase().includes(value)
     );
     // console.log(remainingEpisodes);
-     header.innerHTML = "";
-     loadShow(remainingEpisodes);
+    header.innerHTML = "";
+    loadShow(remainingEpisodes);
     if (value) {
       paragraphforSearch.innerHTML = `Displaying ${remainingEpisodes.length}/ ${allShows.length} episodes`;
     } else {
       paragraphforSearch.innerHTML = " ";
     }
-
   });
 }
 
 //  level-400
 // get all the shows in select menu
 function selectMovies(allShows) {
-  // showOption(allShows);
   allShows
     .sort((a, b) => a.name.localeCompare(b.name))
     .forEach((shows) => {
       let option = document.createElement("option");
-      //  console.log(option)
       option.innerText = `${shows.name}`;
       selectShow.appendChild(option);
-      // console.log(option)
     });
 }
 selectMovies(allShows);
 
-function showOption() {
-  selectShow.innerHTML = "";
-  const optionShow1 = document.createElement("option");
-  optionShow1.innerText = "All";
-  selectShow.appendChild(optionShow1);
-}
 
 //  selecting episode & showing episode accoridngly
 selectShow.addEventListener("change", function () {
   // console.log(selectEpisode);
-  getTheEpisodesList();
-  // selectEpisode.innerHTML= " ";
+  if ( selectShow.value === "none" ){
+     loadShowOnPage(allShows)
+  selectEpisode.innerText = "Episodes";
+  } else {
+    const showId = allShows.find((show) => show.name === selectShow.value).id;
+    getTheEpisodesList(showId);
+
+  }
+  
 });
 
 // getting the episode list in the select-episode  dropdown menu
-function getTheEpisodesList() {
-  const value = selectShow.value;
-  const showId = allShows.find((show) => show.name === value).id;
+function getTheEpisodesList(showId) {
   fetchEpisodes(showId);
   searchBox.value = "";
 }
@@ -190,6 +188,8 @@ function episodeOption() {
   const optionEl = document.createElement("option");
   optionEl.innerText = "All";
   selectEpisode.appendChild(optionEl);
+  fetchEpisodes(allEpisodes);
+  loadEpisodes(allEpisodes);
 }
 
 // episodeOption(allEpisodes)
