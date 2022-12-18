@@ -20,8 +20,7 @@ function loadShowOnPage(allShows) {
 
 window.onload = () => {
   loadShowOnPage(allShows);
-}
-
+};
 
 // creating function for shows
 function loadShow(shows) {
@@ -97,19 +96,17 @@ function selectMovies(allShows) {
 }
 selectMovies(allShows);
 
-
 //  selecting episode & showing episode accoridngly
 selectShow.addEventListener("change", function () {
   // console.log(selectEpisode);
-  if ( selectShow.value === "none" ){
-     loadShowOnPage(allShows)
-  selectEpisode.innerText = "Episodes";
+  if (selectShow.value === "none") {
+    loadShowOnPage(allShows);
+    selectEpisode.innerHTML = "Episodes";
+    // console.log(selectEpisode);
   } else {
     const showId = allShows.find((show) => show.name === selectShow.value).id;
     getTheEpisodesList(showId);
-
   }
-  
 });
 
 // getting the episode list in the select-episode  dropdown menu
@@ -130,6 +127,7 @@ function fetchEpisodes(id) {
       // function for loading episode in the body
       loadEpisodes(allEpisodes);
       // for episode option
+      selectEpisode.innerHTML = "Episodes";
       episodeOption(allEpisodes);
       allEpisodes.forEach((episode) => {
         let option = document.createElement("option");
@@ -184,37 +182,38 @@ function loadEpisodes(allEpisodes) {
 
 // for episode option
 function episodeOption() {
-  selectEpisode.innerHTML = "";
+  selectEpisode.value = " ";
   const optionEl = document.createElement("option");
-  optionEl.innerText = "All";
+  optionEl.innerText = "Episodes";
   selectEpisode.appendChild(optionEl);
   fetchEpisodes(allEpisodes);
   loadEpisodes(allEpisodes);
 }
 
-// episodeOption(allEpisodes)
-
 // search button to show specific episodes
 
 function searchEpisodesList(allEpisodes) {
   searchBox.addEventListener("keyup", (e) => {
-    paragraphforSearch.classList.toggle("hidden");
+    // paragraphforSearch.classList.toggle("hidden");
+
     const value = e.target.value.toLowerCase();
-    console.log(value);
-    console.log(allEpisodes);
     const remainingEpisods = allEpisodes.filter(
       (episode) =>
         episode.name.toLowerCase().includes(value) ||
         episode.summary.toLowerCase().includes(value)
     );
-    console.log(remainingEpisods);
+ 
+     header.innerHTML = "";
+     loadShow(remainingEpisods);
+
     if (value) {
-      paragraphforSearch.innerHTML = `Displaying ${remainingEpisods.length}/ ${allShows.length} episodes`;
+     paragraphforSearch.innerHTML = `Displaying ${remainingEpisods.length}/ ${allShows.length} episodes`;
+       console.log(paragraphforSearch)
+     
     } else {
       paragraphforSearch.innerHTML = " ";
     }
-    header.innerHTML = "";
-    loadShow(remainingEpisods);
+ 
   });
 }
 
@@ -246,22 +245,12 @@ selectEpisode.addEventListener("change", function () {
 
 // add event listner to goback btn to go back from movie show list page
 goBackBtn.addEventListener("click", gobackFromShowPage);
-//  console.log(goBackBtn);
+
 function gobackFromShowPage() {
-  // console.log(allShows);
   header.innerHTML = " ";
   loadShow(allShows);
   selectShow.value = "none";
-  selectEpisode.value = "none";
+  selectEpisode.innerText = "Episodes";
   paragraphforSearch.innerHTML = "Displaying 301 episodes";
   searchBox.value = "";
 }
-
-//  to go back from episode  list page
-// function gobackFromEpisode() {
-//   header.innerHTML = " ";
-//   loadEpisodes(allEpisodes);
-//   selectShow.value = "none";
-//   selectEpisode.value = "none";
-//   paragraphforSearch.innerHTML = " ";
-// }
