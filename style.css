@@ -16,6 +16,7 @@ Variables
   --submain-bg-color: #f2c5d9;
   --submain1-bg-color: #f5eef1;
   --font-color: rgb(8, 8, 180);
+  --body-bg-color: rgb(2,2,61);
 }
 
 /*
@@ -122,11 +123,12 @@ Menu
   margin: auto;
   gap: 26px;
   min-height: 600px;
-  border: 2px solid red;
+  background-color: rgb(1, 1, 37);
+  /* border: 2px solid red; */
 }
 
 .content {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   color: var(--submain1-bg-color);
   padding: 20px 0;
   width: 100%;
@@ -136,9 +138,10 @@ Menu
   /* transition: ease-in-out 0.2s; */
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
 .title-class {
-  border: 2px solid black;
+  /* border: 2px solid black; */
   height: auto;
   display: flex;
   justify-content: space-evenly;
@@ -155,10 +158,30 @@ Menu
   width: 100%;
   margin-top: 1%;
   max-height: 340px;
+  padding: 1.5%;
+  
 }
 
-.content > p {
+.movie-summary{
+
   font-size: 1rem;
+  padding: 5%;
+  letter-spacing: 0.5px;
+  position: absolute;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in; 
+  background-color: var(--body-bg-color);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  max-height: 100%;
+  overflow: auto;
+
+}
+.content:hover  .movie-summary{
+   transform: translateY(0); 
+
 }
 
 .searchDiv {

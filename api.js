@@ -9,6 +9,7 @@ const selectEpisode = document.querySelector("#select-episode");
 const title = document.querySelector(".title");
 const goBackBtn = document.querySelector("#goBackBtn");
 let allEpisodes;
+console.log(allEpisodes);
 const allShows = getAllShows();
 
 function loadShowOnPage(allShows) {
@@ -51,14 +52,20 @@ function loadShow(shows) {
     image.classList.add("img");
     // paragraph
     paragraph.innerHTML = show.summary;
+    paragraph.classList.add("movie-summary")
     newbody.appendChild(paragraph);
     header.appendChild(newbody);
     newbody.classList.add("content");
     titleDiv.classList.add("title-class");
-    paragraphforSearch.innerHTML = `Displaying ${allShows.length} / ${allShows.length} episodes`;
+    paragraphforSearch.innerHTML = `Displaying ${allShows.length} / ${allShows.length} Movie Shows`;
     // console.log(paragraphforSearch)
   }
 }
+
+//  got episode pages by selecting each show
+content.addEventListener("change", (e) => {
+
+})
 
 // search button to show specific shows
 function searchShows(allShows) {
@@ -75,6 +82,8 @@ function searchShows(allShows) {
     // console.log(remainingEpisodes);
     header.innerHTML = "";
     loadShow(remainingEpisodes);
+    console.log(remainingEpisodes);
+
     if (value) {
       paragraphforSearch.innerHTML = `Displaying ${remainingEpisodes.length}/ ${allShows.length} episodes`;
     } else {
@@ -145,6 +154,7 @@ function fetchEpisodes(id) {
 
 // function for loading episode in the body
 function loadEpisodes(allEpisodes) {
+  // const wrapperLink = document.createElement("a");
   for (let episode of allEpisodes) {
     const title = document.createElement("h2");
     const span = document.createElement("span");
@@ -152,28 +162,27 @@ function loadEpisodes(allEpisodes) {
     const paragraph = document.createElement("p");
     const titleDiv = document.createElement("div");
     const newbody = document.createElement("div");
-    //  adding episod name
+
     title.innerText = `${episode.name}`;
-    // title.appendChild(span)
-    // span.innerText = `S0${episode.season}E0${episode.number}`;
-    titleDiv.appendChild(title);
-    titleDiv.appendChild(span);
-    newbody.appendChild(titleDiv);
-    header.appendChild(newbody);
-    // episod image
-    // console.log(show.image);
     image.src =
       episode.image == null
         ? "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/summer-flowers-star-flower-1648071187.jpg"
         : episode.image.original;
 
-    newbody.appendChild(image);
-    header.appendChild(newbody);
-    image.classList.add("img");
-
-    // paragraph
     paragraph.innerHTML = episode.summary;
+
+    span.innerHTML = `<a href = ${episode.url}>Find more</a>`;
+    console.log(span)
+
+    titleDiv.appendChild(title);
+
+    newbody.appendChild(titleDiv);
+    newbody.appendChild(image);
+
+    image.classList.add("img");
+    paragraph.appendChild(span);
     newbody.appendChild(paragraph);
+
     header.appendChild(newbody);
     newbody.classList.add("content");
     titleDiv.classList.add("title-class");
@@ -202,18 +211,16 @@ function searchEpisodesList(allEpisodes) {
         episode.name.toLowerCase().includes(value) ||
         episode.summary.toLowerCase().includes(value)
     );
- 
-     header.innerHTML = "";
-     loadShow(remainingEpisods);
+
+    header.innerHTML = "";
+    loadShow(remainingEpisods);
 
     if (value) {
-     paragraphforSearch.innerHTML = `Displaying ${remainingEpisods.length}/ ${allShows.length} episodes`;
-       console.log(paragraphforSearch)
-     
+      paragraphforSearch.innerHTML = `Displaying ${remainingEpisods.length}/ ${allShows.length} episodes`;
+      console.log(paragraphforSearch);
     } else {
       paragraphforSearch.innerHTML = " ";
     }
- 
   });
 }
 
