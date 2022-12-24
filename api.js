@@ -226,7 +226,7 @@ function searchShows(allShows) {
 
     header.innerHTML = "";
     loadShow(remainingEpisodes);
-    console.log(remainingEpisodes);
+
 
     if (value) {
       paragraphforSearch.innerHTML = `Displaying ${remainingEpisodes.length}/ ${allShows.length} episodes`;
